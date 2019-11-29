@@ -30,10 +30,11 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/movies_without_bud
                             budget = budget + n
                     with lock:
                         fw.writerow([movieID, budget])
-                        print('Added budget for' + movieID)
+                        print('Added budget for ' + movieID)
 
                 except AttributeError:
-                    print("No budget found for " + movieID)
+                    #print("No budget found for " + movieID)
+                    pass
 
 
             def threader():
@@ -42,7 +43,7 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/movies_without_bud
                     getBudgetFromIMDB(movieID)
                     q.task_done()
 
-            for x in range(32):
+            for x in range(256):
                 t = threading.Thread(target = threader)
                 t.daemon = True
                 t.start()
