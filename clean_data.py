@@ -12,6 +12,8 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/AllMoviesDetailsCl
 
 #basicsM = {'id': 'title'}
 ratingsDic = {'id': 'ratings'}
+voteCountDic = {'id': 'votes'}
+extraMovieBudgetDic = {'id': 'budget'}
 
 # with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/imdb_movie_basics.tsv', mode='r',  encoding="utf8") as bmdb:
 #     basics = csv.reader(bmdb, delimiter="\t", quotechar='"')
@@ -20,6 +22,12 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/imdb_movie_ratings
     ratings = csv.reader(rmdb, delimiter='\t')
     for row in ratings:
         ratingsDic[row[0]] =  row[1]
+        voteCountDic[row[0]] = row[2]
+
+with open('/Users/Povilas/Desktop/Final-Year-Project/movies_with_scrapped_budget.csv', mode='r',  encoding="utf8") as xtrabudget:
+    extra = csv.reader(xtrabudget, delimiter=',')
+    for row in extra:
+        extraMovieBudgetDic[row[0]] =  row[1]
 
     #print(ratingsDic)
     with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/AllMoviesDetailsCleaned.csv', mode='r',  encoding="utf8") as cmdb:
@@ -30,7 +38,7 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/imdb_movie_ratings
                                     quotechar='"')
             # fw.writerow(['imdb_id', 'runtime', 'budget', 'reveune', 'ratings'])
             # fw.writerow(['imdb_id', 'runtime', 'budget', 'reveune', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction','Romance','Thriller', 'Western', 'War', 'ratings'])
-            fw.writerow(['imdb_id', 'runtime', 'budget', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction','Romance','Thriller', 'Western', 'War', 'ratings'])
+            fw.writerow(['imdb_id', 'runtime', 'budget', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction','Romance','Thriller', 'Western', 'War', 'ratingProduct'])
 
             for row in clean_movie_db:
                 #print(row)
@@ -39,21 +47,12 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/imdb_movie_ratings
                 elif row[3] != '' and row[12] != '' and row[12] != '0' and row[3] in ratingsDic:
                     skip = False
                     if row[1] == '0':
-                        try:
-                            print(row[3])
-                            url = 'https://www.imdb.com/title/' + row[3]
-                            response = requests.get(url)
-                            soup = BeautifulSoup(response.text, 'lxml')
-                            budget_html = soup.find(text='Budget:').parent.parent
-                            budget_rawval = budget_html.find('h4').next_sibling
-                            budget = ''
-                            for n in budget_rawval:
-                                if(n.isdigit()):
-                                    budget = budget + n
-                            row[1] = budget
-                        except AttributeError:
-                            print("No budget found for " + row[3])
+                        if row[3] in extraMovieBudgetDic:
+                            budget = extraMovieBudgetDic[row[3]]
+                        else:
                             skip = True
+                    else:
+                        budget = row[1]
                         
                     if not skip:
                         animation = 0
@@ -114,7 +113,9 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/imdb_movie_ratings
                             elif(g=='War'):
                                 war=1
 
-                        fw.writerow([row[3], row[12], row[1], animation, action, adevnture, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, scifi, romance, thriller, western, war, ratingsDic[row[3]]])
+                        ratingProduct = float(ratingsDic[row[3]]) * int(voteCountDic[row[3]])
+
+                        fw.writerow([row[3], row[12], budget, animation, action, adevnture, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, scifi, romance, thriller, western, war, int(ratingProduct)])
 
 print("done")
 

@@ -1,39 +1,57 @@
 import pandas as pd
 import tensorflow as tf
 import keras
+import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-train_path = '/Users/Povilas/Desktop/Final-Year-Project/movies.csv'
-
-dataset = pd.read_csv(train_path)
-x = dataset.iloc[:,1:21]
-y = dataset.iloc[:,21]
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=0)
+from sklearn import preprocessing
 
 sc = StandardScaler()
-x_train = sc.fit_transform(x_train)
-x_test = sc.transform(x_test)
+
+train_path = '/Users/Povilas/Desktop/Final-Year-Project/movies.csv'
+dataset = pd.read_csv(train_path)
+x_df = pd.DataFrame(dataset.iloc[:,1:21])
+y_df = pd.DataFrame(dataset.iloc[:,21])
+
+x_df['budget'] = sc.fit_transform(x_df[["budget"]])
+x_df['runtime'] = sc.fit_transform(x_df[["runtime"]])
+# x_df = sc.fit_transform(x_df)
+
+y_df['ratingProduct'] = sc.fit_transform(y_df[["ratingProduct"]])
+# x = dataset.iloc[:,1:21]
+# y = dataset.iloc[:,21]
+
+# x = np.array(x)
+# x = x.reshape(-1, 1)
+# x[1,:] = sc.fit_transform(x[1,:])
+
+x_train, x_test, y_train, y_test = train_test_split(x_df, y_df, test_size=0.1, random_state=50)
+
+# sc = StandardScaler()
+# x_train = sc.fit_transform(x_train)
+# x_test = sc.transform(x_test)
+
+#y_train = sc.transform(y_train)
+# x_train=(x_train-x_train.mean())/x_train.std()
+# x = x_train[['budget']].values.astype(int)
+# min_max_scaler = preprocessing.MinMaxScaler()
+# x_scaled = min_max_scaler.fit_transform(x)
+# x_train = pd.DataFrame(x_scaled)
+
+# y_train=(y_train-y_train.mean())/y_train.std()
+# y_train = y_train.reshape(-1, 1)
 
 model = Sequential()
-model.add(Dense(150, activation='relu', input_dim=20))
-model.add(Dense(150, activation='relu'))
-model.add(Dense(150, activation='relu'))
-# model.add(Dense(150, activation='relu'))
-# model.add(Dense(150, activation='relu'))
-# model.add(Dense(150, activation='relu'))
-# model.add(Dense(150, activation='relu'))
-model.add(Dense(1, activation='relu'))
-
-# model.add(Dense(21, activation='relu', kernel_initializer='uniform', input_dim=21))
-# model.add(Dense(21, activation='relu', kernel_initializer='uniform'))
-# model.add(Dense(1, activation='softmax', kernel_initializer='uniform'))
+model.add(Dense(100, activation='relu', input_dim=20))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-model.fit(x_train, y_train, batch_size=150, epochs=50)
+model.fit(x_train, y_train, batch_size=300, epochs=10)
 
 
 
