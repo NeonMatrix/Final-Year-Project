@@ -9,3 +9,17 @@
 [5] https://www.cinelytic.com
 
 [6] https://www.screendaily.com/features/how-data-company-cinelytic-aims-to-reduce-risk-in-the-film-business/5136245.article
+
+[7] https://en.wikipedia.org/wiki/VaultML
+
+[8] https://www.vault-ai.com/RealDemand-market-intelligence.html
+
+[9] https://www.scriptbook.io
+
+[10] https://www.scriptbook.io/#!/deepstory
+
+[11] https://www.tensorflow.org/
+
+[12] https://keras.io/
+
+[13] https://www.researchgate.net/publication/332396741_Movie_Success_Prediction_using_Data_Mining_For_Data_Mining_and_Business_IntelligenceITA5007_of_Master_of_Computer_Application_School_Of_Information_Technology_and_Engineering
