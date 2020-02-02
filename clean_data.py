@@ -38,7 +38,7 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/movies_with_scrapped_budget
                                     quotechar='"')
             # fw.writerow(['imdb_id', 'runtime', 'budget', 'reveune', 'ratings'])
             # fw.writerow(['imdb_id', 'runtime', 'budget', 'reveune', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction','Romance','Thriller', 'Western', 'War', 'ratings'])
-            fw.writerow(['imdb_id', 'runtime', 'budget', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction','Romance','Thriller', 'Western', 'War', 'ratingProduct'])
+            fw.writerow(['imdb_id', 'runtime', 'budget', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction','Romance','Thriller', 'Western', 'War', 'movie rating'])
 
             for row in clean_movie_db:
                 #print(row)
@@ -113,9 +113,9 @@ with open('/Users/Povilas/Desktop/Final-Year-Project/movies_with_scrapped_budget
                             elif(g=='War'):
                                 war=1
 
-                        ratingProduct = float(ratingsDic[row[3]]) * int(voteCountDic[row[3]])
+                        #ratingProduct = float(ratingsDic[row[3]]) * int(voteCountDic[row[3]])
 
-                        fw.writerow([row[3], row[12], budget, animation, action, adevnture, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, scifi, romance, thriller, western, war, int(ratingProduct)])
+                        fw.writerow([row[3], row[12], budget, animation, action, adevnture, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, scifi, romance, thriller, western, war, ratingsDic[row[3]]])
 
 print("done")
 

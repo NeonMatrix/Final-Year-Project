@@ -19,7 +19,7 @@ x_df['budget'] = sc.fit_transform(x_df[["budget"]])
 x_df['runtime'] = sc.fit_transform(x_df[["runtime"]])
 # x_df = sc.fit_transform(x_df)
 
-y_df['ratingProduct'] = sc.fit_transform(y_df[["ratingProduct"]])
+y_df['movie rating'] = sc.fit_transform(y_df[["movie rating"]])
 # x = dataset.iloc[:,1:21]
 # y = dataset.iloc[:,21]
 
