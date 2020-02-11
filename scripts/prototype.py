@@ -13,10 +13,10 @@ from sklearn.preprocessing import OneHotEncoder
 
 sc = StandardScaler()
 
-#train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
-train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+# train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
 dataset = pd.read_csv(train_path)
-x_df = pd.DataFrame(dataset.iloc[:,10:11])
+x_df = pd.DataFrame(dataset.iloc[:,1:25])
 y_df = pd.DataFrame(dataset.iloc[:,25])
 
 # x_df['budget'] = sc.fit_transform(x_df[["budget"]])
@@ -25,7 +25,7 @@ y_df = pd.DataFrame(dataset.iloc[:,25])
 # x_df['nominated_oscars'] = sc.fit_transform(x_df[["nominated_oscars"]])
 # x_df['other_awards_won'] = sc.fit_transform(x_df[["other_awards_won"]])
 # x_df['other_awards_nominated'] = sc.fit_transform(x_df[["other_awards_nominated"]])
-# x_df = sc.fit_transform(x_df)
+x_df = sc.fit_transform(x_df)
 
 
 # le = LabelEncoder()
@@ -54,7 +54,7 @@ print(expectedResult[2][9])
 # x = x.reshape(-1, 1)
 # x[1,:] = sc.fit_transform(x[1,:])
 
-x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.9, random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.6, random_state=50)
 
 # sc = StandardScaler()
 # x_train = sc.fit_transform(x_train)
@@ -72,18 +72,20 @@ x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_s
 
 
 model = Sequential()
-model.add(Dense(1, activation='sigmoid', input_dim=1))
-model.add(Dense(1, activation='sigmoid'))
-model.add(Dense(11, activation='sigmoid'))
+model.add(Dense(48, activation='relu', input_dim=24))
+model.add(Dense(84, activation='relu'))
+model.add(Dense(48, activation='relu'))
+model.add(Dense(11, activation='softmax'))
 
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+#categorical_crossentropy
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 print(x_train)
 print(y_train)
-model.fit(x_train, y_train, batch_size=50, epochs=10)
+model.fit(x_train, y_train, batch_size=10, epochs=5)
 
 score = model.evaluate(x_test, y_test)
-print(f"accuracy {score[1]}")
+print(f"Test Accuracy: {score[1]}")
 
 
 # trainset = tf.data.TextLineDataset(train_path).skip(1)
