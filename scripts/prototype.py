@@ -4,6 +4,7 @@ import keras
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.layers import Dropout
 from keras.utils import to_categorical 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -13,20 +14,20 @@ from sklearn.preprocessing import OneHotEncoder
 
 sc = StandardScaler()
 
-train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
-# train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+#train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
 dataset = pd.read_csv(train_path)
 x_df = pd.DataFrame(dataset.iloc[:,1:25])
 y_df = pd.DataFrame(dataset.iloc[:,25])
 
-# x_df['budget'] = sc.fit_transform(x_df[["budget"]])
-# x_df['runtime'] = sc.fit_transform(x_df[["runtime"]])
-# x_df['won_oscars'] = sc.fit_transform(x_df[["won_oscars"]])
-# x_df['nominated_oscars'] = sc.fit_transform(x_df[["nominated_oscars"]])
-# x_df['other_awards_won'] = sc.fit_transform(x_df[["other_awards_won"]])
-# x_df['other_awards_nominated'] = sc.fit_transform(x_df[["other_awards_nominated"]])
-x_df = sc.fit_transform(x_df)
-
+x_df['budget'] = sc.fit_transform(x_df[["budget"]])
+x_df['runtime'] = sc.fit_transform(x_df[["runtime"]])
+x_df['won_oscars'] = sc.fit_transform(x_df[["won_oscars"]])
+x_df['nominated_oscars'] = sc.fit_transform(x_df[["nominated_oscars"]])
+x_df['other_awards_won'] = sc.fit_transform(x_df[["other_awards_won"]])
+x_df['other_awards_nominated'] = sc.fit_transform(x_df[["other_awards_nominated"]])
+# x_df = sc.fit_transform(x_df)
+print(x_df)
 
 # le = LabelEncoder()
 # int_encode = le.fit_transform(y_df)
@@ -54,7 +55,7 @@ print(expectedResult[2][9])
 # x = x.reshape(-1, 1)
 # x[1,:] = sc.fit_transform(x[1,:])
 
-x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.6, random_state=50)
+x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.2, random_state=75)
 
 # sc = StandardScaler()
 # x_train = sc.fit_transform(x_train)
@@ -72,10 +73,13 @@ x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_s
 
 
 model = Sequential()
-model.add(Dense(48, activation='relu', input_dim=24))
-model.add(Dense(84, activation='relu'))
-model.add(Dense(48, activation='relu'))
-model.add(Dense(11, activation='softmax'))
+model.add(Dense(100, activation='relu', input_dim=24))
+# model.add(Dropout(0.2))
+model.add(Dense(125, activation='relu'))
+# model.add(Dropout(0.2))
+model.add(Dense(100, activation='relu'))
+model.add(Dropout(0.25))
+model.add(Dense(11, activation='sigmoid'))
 
 #categorical_crossentropy
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
