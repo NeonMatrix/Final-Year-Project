@@ -13,8 +13,8 @@ from sklearn.preprocessing import OneHotEncoder
 sc = StandardScaler()
 
 
-train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
-#train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+#train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
 dataInputSize = 29
 
 dataset = pd.read_csv(train_path)
@@ -23,16 +23,25 @@ y_df = pd.DataFrame(dataset.iloc[:,dataInputSize])
 
 x_df['budget'] = sc.fit_transform(x_df[["budget"]])
 x_df['runtime'] = sc.fit_transform(x_df[["runtime"]])
-x_df['won_oscars'] = sc.fit_transform(x_df[["won_oscars"]])
-x_df['nominated_oscars'] = sc.fit_transform(x_df[["nominated_oscars"]])
+# x_df['won_oscars'] = sc.fit_transform(x_df[["won_oscars"]])
+# x_df['nominated_oscars'] = sc.fit_transform(x_df[["nominated_oscars"]])
 x_df['other_awards_won'] = sc.fit_transform(x_df[["other_awards_won"]])
 x_df['other_awards_nominated'] = sc.fit_transform(x_df[["other_awards_nominated"]])
-x_df['director_won_oscar'] = sc.fit_transform(x_df[["director_won_oscar"]])
-x_df['director_nominated_oscar'] = sc.fit_transform(x_df[["director_nominated_oscar"]])
+# x_df['director_won_oscar'] = sc.fit_transform(x_df[["director_won_oscar"]])
+# x_df['director_nominated_oscar'] = sc.fit_transform(x_df[["director_nominated_oscar"]])
 x_df['director_other_awards_won'] = sc.fit_transform(x_df[["director_other_awards_won"]])
 x_df['director_other_awards_nominated'] = sc.fit_transform(x_df[["director_other_awards_nominated"]])
+#y_df = sc.fit_transform(y_df)
+# expectedResult = []
+# for x in y_df:
+#     if x == 'movie rating':
+#         pass
+#     else:
+#         expectedResult.append(int(x)/10)
+#     print(x)
+
 # x_df = sc.fit_transform(x_df)
-# print(x_df)
+# print(expectedResult)
 
 # formats star ratings into array of categories i.e 3/10 stars = [0,0,1,0,0,0,0,0,0,0]
 y_df = y_df.values.tolist()
@@ -40,6 +49,7 @@ y_df = np.array(y_df , dtype=int)
 newRay = y_df.flatten()
 print(newRay)
 expectedResult = to_categorical(newRay)
+# expectedResult = sc.fit_transform(expectedResult)
 print(expectedResult)
 
 x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.2, random_state=75)
@@ -53,17 +63,17 @@ model.add(Dense(100, activation='relu'))
 model.add(Dropout(0.25))
 model.add(Dense(11, activation='sigmoid'))
 
-#categorical_crossentropy
-model.compile(optimizer='adam', loss='mse', metrics=['accuracy', 'mse', 'mae'])
+#categorical_crossentropy metrics=['accuracy', 'mse', 'mae']
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy', 'mse', 'mae'])
 
 # print(x_train)
 # print(y_train)
-model.fit(x_train, y_train, batch_size=10, epochs=5)
+model.fit(x_train, y_train, batch_size=10, epochs=10)
 
 score = model.evaluate(x_test, y_test)
 print(f"Test Accuracy: {score[1]}")
 
-
+#model.save('MovieRatingModel.h5')
 
 
 
