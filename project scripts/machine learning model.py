@@ -73,7 +73,7 @@ model.fit(x_train, y_train, batch_size=10, epochs=10)
 score = model.evaluate(x_test, y_test)
 print(f"Test Accuracy: {score[1]}")
 
-model.save('MovieRatingModel.h5')
+#model.save('MovieRatingModel.h5')
 
 
 
