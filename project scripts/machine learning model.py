@@ -13,8 +13,8 @@ from sklearn.preprocessing import OneHotEncoder
 sc = StandardScaler()
 
 
-#train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
-train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+#train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
 dataInputSize = 29
 
 dataset = pd.read_csv(train_path)
@@ -61,7 +61,7 @@ model.add(Dense(125, activation='relu'))
 # model.add(Dropout(0.2))
 model.add(Dense(100, activation='relu'))
 model.add(Dropout(0.25))
-model.add(Dense(11, activation='sigmoid'))
+model.add(Dense(11, activation='softmax'))
 
 #categorical_crossentropy metrics=['accuracy', 'mse', 'mae']
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy', 'mse', 'mae'])
@@ -73,7 +73,7 @@ model.fit(x_train, y_train, batch_size=10, epochs=10)
 score = model.evaluate(x_test, y_test)
 print(f"Test Accuracy: {score[1]}")
 
-#model.save('MovieRatingModel.h5')
+model.save('MovieRatingModel.h5')
 
 
 
