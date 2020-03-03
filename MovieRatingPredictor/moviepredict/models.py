@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class PredictedMovie(models.Model):
+    budget = models.IntegerField(default=0)
+    runtime = models.IntegerField(default=0)
