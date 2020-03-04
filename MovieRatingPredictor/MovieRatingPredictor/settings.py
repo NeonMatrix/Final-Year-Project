@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'bootstrap4',
     'moviepredict.apps.MoviepredictConfig',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
