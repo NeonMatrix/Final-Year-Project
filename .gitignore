@@ -1,4 +1,5 @@
 /Lib/
 /datasets/
+/fyp_compressed_dbs/
 *.zip
 *.rar

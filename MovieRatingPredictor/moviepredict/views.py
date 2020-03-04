@@ -7,7 +7,7 @@ def index(request):
     return render(request, 'moviepredict/index.html', {})
 
 def result(request, budget):
-    return render(request, 'polls/result.html', {'budget' : budget})
+    return render(request, 'moviepredict/result.html', {'budget' : budget})
 
 def makeRatingPrediction(request):
     try:
@@ -20,4 +20,5 @@ def makeRatingPrediction(request):
             }
         )
     else:
-        return HttpResponseRedirect(reverse('moviepredict:result', args=(budget,)))
+        #return HttpResponseRedirect(reverse('moviepredict:result', args=(budget,)))
+        return render(request, 'moviepredict/result.html', {'budget' : budget})
