@@ -37,29 +37,25 @@
                 <div class="card-body">
 
                     <div class="form-row m-b-55">
-                        <div class="name">Actor 1:</div>
-                        <div class="name">{{actor1}}</div>
+                        <div class="name">Predicted Rating: {{rating}}</div>
                     </div>
 
                     <div class="form-row m-b-55">
-                        <div class="name">Actor 2:</div>
-                        <div class="name">{{actor2}}</div>
+                        {% for i in num_stars %}
+                        <div><img src="{% static 'images/star.png' %}" alt="[star.png]" width="50px"></div>
+                        {% endfor %}
+                        {% for i in num_black_stars %}
+                        <div><img src="{% static 'images/black_star.png' %}" alt="[black_Star.png]" width="50px"></div>
+                        {% endfor %}
                     </div>
 
+                    {% for a in actors %}
                     <div class="form-row m-b-55">
-                        <div class="name">Actor 3:</div>
-                        <div class="name">{{actor3}}</div>
+                        <div class="name">Actor: {{forloop.counter}}</div>
+                        <div class="name">{{a}}</div>
                     </div>
+                    {% endfor %}
 
-                    <div class="form-row m-b-55">
-                        <div class="name">Actor 4:</div>
-                        <div class="name">{{actor4}}</div>
-                    </div>
-                    
-                    <div class="form-row m-b-55">
-                        <div class="name">Actor 5:</div>
-                        <div class="name">{{actor5}}</div>
-                    </div>
 
                     <div class="form-row m-b-55">
                         <div class="name">Budget: {{budget}}</div>
@@ -67,6 +63,34 @@
 
                     <div class="form-row m-b-55">
                         <div class="name">Runtime: {{runtime}}</div>
+                    </div>
+
+                    <div class="form-row m-b-55">
+                        <div class="name">Genre: {{genre}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Total amount of oscars won: {{totalActorOscars}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Total amount of oscars nominated: {{totalActorNomOscars}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Total amount of other awards won: {{totActorOtherWins}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Total amount of other awards nominated: {{totActorOtherNoms}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Director Oscars Won: {{directorOscars}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Director Oscars Nominated: {{directorOscarsNom}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Director Other Awards Won: {{directorOtherWins}}</div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Director Other Awards Nominated: {{directorOtherNoms}}</div>
                     </div>
                 </div>
             </div>

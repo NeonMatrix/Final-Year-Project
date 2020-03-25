@@ -46,7 +46,7 @@
                                 <div class="row row-space">
                                     <div class="col-1">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="actor1">
+                                            <input class="input--style-5" type="text" name="actor[]">
                                             <label class="label--desc">Actor name</label>
                                         </div>
                                     </div>
@@ -60,7 +60,7 @@
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor2">
+                                                <input class="input--style-5" type="text" name="actor[]">
                                                 <label class="label--desc">Actor name</label>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor3">
+                                                <input class="input--style-5" type="text" name="actor[]">
                                                 <label class="label--desc">Actor name</label>
                                             </div>
                                         </div>
@@ -88,7 +88,7 @@
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor4">
+                                                <input class="input--style-5" type="text" name="actor[]">
                                                 <label class="label--desc">Actor name</label>
                                             </div>
                                         </div>
@@ -102,8 +102,22 @@
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor5">
+                                                <input class="input--style-5" type="text" name="actor[]">
                                                 <label class="label--desc">Actor name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row m-b-55">
+                                <div class="name">Director</div>
+                                <div class="value">
+                                    <div class="row row-space">
+                                        <div class="col-1">
+                                            <div class="input-group-desc">
+                                                <input class="input--style-5" type="text" name="director">
+                                                <label class="label--desc">Director name</label>
                                             </div>
                                         </div>
                                     </div>
@@ -148,32 +162,76 @@
                         <div class="form-row p-t-20">
                             <label class="label label--block">Choose movie genre</label>
                             <div class="p-t-15">
+                                <label class="radio-container m-r-55">Animation
+                                    <input type="checkbox" name="genre" value="Animation">
+                                    <span class="checkmark"></span>
+                                </label>
                                 <label class="radio-container m-r-55">Action
-                                    <input type="checkbox" checked="checked" name="exist">
+                                    <input type="checkbox" name="genre" value="Action">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">Adventure
-                                    <input type="checkbox" name="exist">
+                                <label class="radio-container m-r-55">Adventure
+                                    <input type="checkbox" name="genre" value="Adventure">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">Comedy
-                                    <input type="checkbox" name="exist">
+                                <label class="radio-container m-r-55">Comedy
+                                    <input type="checkbox" name="genre" value="Comedy">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">Crime
-                                    <input type="checkbox" name="exist">
+                                <label class="radio-container m-r-55">Crime
+                                    <input type="checkbox" name="genre" value="Crime">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">Horror
-                                    <input type="checkbox" name="exist">
+                                <label class="radio-container m-r-55">Documentary
+                                    <input type="checkbox" name="genre" value="Documentary">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">Science Fiction
-                                    <input type="checkbox" name="exist">
+                                <label class="radio-container m-r-55">Drama
+                                    <input type="checkbox" name="genre" value="Drama">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">Western
-                                    <input type="checkbox" name="exist">
+                                <label class="radio-container m-r-55">Family
+                                    <input type="checkbox" name="genre" value="Family">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Fantasy
+                                    <input type="checkbox" name="genre" value="Fantasy">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">History
+                                    <input type="checkbox" name="genre" value="History">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Horror
+                                    <input type="checkbox" name="genre" value="Horror">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Music
+                                    <input type="checkbox" name="genre" value="Music">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Mystery
+                                    <input type="checkbox" name="genre" value="Mystery">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Science Fiction
+                                    <input type="checkbox" name="genre" value="Science Fiction">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Romance
+                                    <input type="checkbox" name="genre" value="Romance">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Thriller
+                                    <input type="checkbox" name="genre" value="Thriller">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">Western
+                                    <input type="checkbox" name="genre" value="Western">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-55">War
+                                    <input type="checkbox" name="genre" value="War">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>

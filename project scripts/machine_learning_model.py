@@ -52,6 +52,7 @@ expectedResult = to_categorical(newRay)
 # expectedResult = sc.fit_transform(expectedResult)
 print(expectedResult)
 
+print(x_df)
 x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.2, random_state=75)
 
 model = Sequential()
@@ -73,7 +74,7 @@ model.fit(x_train, y_train, batch_size=10, epochs=10)
 score = model.evaluate(x_test, y_test)
 print(f"Test Accuracy: {score[1]}")
 
-#model.save('MovieRatingModel.h5')
+model.save('new_prediction_model.h5')
 
 
 

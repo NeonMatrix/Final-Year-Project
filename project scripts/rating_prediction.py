@@ -13,13 +13,15 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 sc = StandardScaler()
 
-model = load_model('MovieRatingModel.h5')
+model = load_model('new_prediction_model.h5')
 
 train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/predict_movies.csv'
 #train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/predict_movies.csv'
 dataInputSize = 29
 
 dataset = pd.read_csv(train_path)
+print(dataset.loc[1])
+
 x_df = pd.DataFrame(dataset.iloc[:,1:dataInputSize])
 y_df = pd.DataFrame(dataset.iloc[:,dataInputSize])
 
@@ -36,6 +38,7 @@ x_df['director_other_awards_nominated'] = sc.fit_transform(x_df[["director_other
 # print(y_df)
 stars = y_df['movie rating']
 
+print(x_df.loc[0])
 prediction = model.predict(x_df)
 
 #print(prediction)
