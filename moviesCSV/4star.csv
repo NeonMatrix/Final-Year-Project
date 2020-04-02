@@ -1,0 +1,4 @@
+imdb_id,runtime,budget,Animation,Action,Adventure,Comedy,Crime,Documentary,Drama,Family,Fantasy,History,Horror,Music,Mystery,Science Fiction,Romance,Thriller,Western,War,won_oscars,nominated_oscars,other_awards_won,other_awards_nominated,director_won_oscar,director_nominated_oscar,director_other_awards_won,director_other_awards_nominated,movie rating
+tt0077278,98,3500000,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,3,0,0,0,0,7
+tt0827735,91,250000,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,13,18,0,0,0,0,3
+tt0326820,94,2500000,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,23,11,0,0,3,0,3

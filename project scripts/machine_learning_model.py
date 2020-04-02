@@ -7,11 +7,24 @@ from keras.layers import Dropout
 from keras.utils import to_categorical 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn import preprocessing
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
-sc = StandardScaler()
+import joblib
+# from sklearn.externals import joblib 
+# sc = StandardScaler()
 
+budgetScaler = MinMaxScaler(feature_range=(0,1))
+runtimeScaler = MinMaxScaler(feature_range=(0,1))
+won_oscarsScaler = MinMaxScaler(feature_range=(0,1))
+nominated_oscarsScaler = MinMaxScaler(feature_range=(0,1))
+other_awards_wonScaler = MinMaxScaler(feature_range=(0,1))
+other_awards_nominatedScaler = MinMaxScaler(feature_range=(0,1))
+director_won_oscarScaler = MinMaxScaler(feature_range=(0,1))
+director_nominated_oscarScaler = MinMaxScaler(feature_range=(0,1))
+director_other_awards_wonScaler = MinMaxScaler(feature_range=(0,1))
+director_other_awards_nominatedScaler = MinMaxScaler(feature_range=(0,1))
 
 train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
 #train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
@@ -21,16 +34,17 @@ dataset = pd.read_csv(train_path)
 x_df = pd.DataFrame(dataset.iloc[:,1:dataInputSize])
 y_df = pd.DataFrame(dataset.iloc[:,dataInputSize])
 
-x_df['budget'] = sc.fit_transform(x_df[["budget"]])
-x_df['runtime'] = sc.fit_transform(x_df[["runtime"]])
-# x_df['won_oscars'] = sc.fit_transform(x_df[["won_oscars"]])
-# x_df['nominated_oscars'] = sc.fit_transform(x_df[["nominated_oscars"]])
-x_df['other_awards_won'] = sc.fit_transform(x_df[["other_awards_won"]])
-x_df['other_awards_nominated'] = sc.fit_transform(x_df[["other_awards_nominated"]])
-# x_df['director_won_oscar'] = sc.fit_transform(x_df[["director_won_oscar"]])
-# x_df['director_nominated_oscar'] = sc.fit_transform(x_df[["director_nominated_oscar"]])
-x_df['director_other_awards_won'] = sc.fit_transform(x_df[["director_other_awards_won"]])
-x_df['director_other_awards_nominated'] = sc.fit_transform(x_df[["director_other_awards_nominated"]])
+x_df['budget'] = budgetScaler.fit_transform(x_df[["budget"]])
+x_df['runtime'] = runtimeScaler.fit_transform(x_df[["runtime"]])
+x_df['won_oscars'] = won_oscarsScaler.fit_transform(x_df[["won_oscars"]])
+x_df['nominated_oscars'] = nominated_oscarsScaler.fit_transform(x_df[["nominated_oscars"]])
+x_df['other_awards_won'] = other_awards_wonScaler.fit_transform(x_df[["other_awards_won"]])
+x_df['other_awards_nominated'] = other_awards_nominatedScaler.fit_transform(x_df[["other_awards_nominated"]])
+x_df['director_won_oscar'] = director_won_oscarScaler.fit_transform(x_df[["director_won_oscar"]])
+x_df['director_nominated_oscar'] = director_nominated_oscarScaler.fit_transform(x_df[["director_nominated_oscar"]])
+x_df['director_other_awards_won'] = director_other_awards_wonScaler.fit_transform(x_df[["director_other_awards_won"]])
+x_df['director_other_awards_nominated'] = director_other_awards_nominatedScaler.fit_transform(x_df[["director_other_awards_nominated"]])
+
 #y_df = sc.fit_transform(y_df)
 # expectedResult = []
 # for x in y_df:
@@ -69,13 +83,22 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 # print(x_train)
 # print(y_train)
-model.fit(x_train, y_train, batch_size=10, epochs=10)
+model.fit(x_train, y_train, batch_size=1, epochs=12)
 
 score = model.evaluate(x_test, y_test)
 print(f"Test Accuracy: {score[1]}")
 
-model.save('new_prediction_model.h5')
-
+model.save('prediction_models/minMaxPredictionModel.h5')
+joblib.dump(budgetScaler, 'scalers/budgetScaler.sav')
+joblib.dump(runtimeScaler, 'scalers/runtimeScaler.sav') 
+joblib.dump(won_oscarsScaler, 'scalers/won_oscarsScaler.sav') 
+joblib.dump(nominated_oscarsScaler, 'scalers/nominated_oscarsScaler.sav') 
+joblib.dump(other_awards_wonScaler, 'scalers/other_awards_wonScaler.sav') 
+joblib.dump(other_awards_nominatedScaler, 'scalers/other_awards_nominatedScaler.sav') 
+joblib.dump(director_won_oscarScaler, 'scalers/director_won_oscarScaler.sav') 
+joblib.dump(director_nominated_oscarScaler, 'scalers/director_nominated_oscarScaler.sav') 
+joblib.dump(director_other_awards_wonScaler, 'scalers/director_other_awards_wonScaler.sav') 
+joblib.dump(director_other_awards_nominatedScaler, 'scalers/director_other_awards_nominatedScaler.sav')  
 
 
 

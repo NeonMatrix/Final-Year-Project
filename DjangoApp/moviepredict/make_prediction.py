@@ -12,9 +12,10 @@ from keras.models import load_model
 # from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn import preprocessing
+# from sklearn.externals import joblib 
 # from sklearn.preprocessing import LabelEncoder
 # from sklearn.preprocessing import OneHotEncoder
-sc = StandardScaler()
+import joblib
 
 def getActorID(actorName):
     a = Actor.objects.filter(name=actorName)
@@ -122,7 +123,18 @@ def getDirectorAwards(directorName):
 
 def preditRating(movieDetails):
 
-    model = load_model('moviepredict/new_prediction_model.h5')
+    model = load_model('moviepredict/prediction_models/minMaxPredictionModel.h5')
+
+    budgetScaler = joblib.load('moviepredict/scalers/budgetScaler.sav')
+    runtimeScaler = joblib.load('moviepredict/scalers/runtimeScaler.sav')
+    won_oscarsScaler = joblib.load('moviepredict/scalers/won_oscarsScaler.sav')
+    nominated_oscarsScaler = joblib.load('moviepredict/scalers/nominated_oscarsScaler.sav')
+    other_awards_wonScaler = joblib.load('moviepredict/scalers/other_awards_wonScaler.sav')
+    other_awards_nominatedScaler = joblib.load('moviepredict/scalers/other_awards_nominatedScaler.sav')
+    director_won_oscarScaler = joblib.load('moviepredict/scalers/director_won_oscarScaler.sav')
+    director_nominated_oscarScaler = joblib.load('moviepredict/scalers/director_nominated_oscarScaler.sav')
+    director_other_awards_wonScaler = joblib.load('moviepredict/scalers/director_other_awards_wonScaler.sav')
+    director_other_awards_nominatedScaler = joblib.load('moviepredict/scalers/director_other_awards_nominatedScaler.sav')
 
     dataset = { 'runtime': movieDetails[0],
                 'budget': movieDetails[1],
@@ -157,24 +169,24 @@ def preditRating(movieDetails):
     #df = pd.DataFrame (dataset.items(), columns = ['runtime', 'budget', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction', 'Romance', 'Thriller', 'Western', 'War', 'won_oscars', 'nominated_oscars', 'other_awards_won', 'other_awards_nominated', 'director_won_oscar', 'director_nominated_oscar', 'director_other_awards_won', 'director_other_awards_nominated'])
     df = pd.DataFrame ([dataset])
 
-    df['budget'] = sc.fit_transform(df[["budget"]])
-    df['runtime'] = sc.fit_transform(df[["runtime"]])
-    df['won_oscars'] = sc.fit_transform(df[["won_oscars"]])
-    df['nominated_oscars'] = sc.fit_transform(df[["nominated_oscars"]])
-    df['other_awards_won'] = sc.fit_transform(df[["other_awards_won"]])
-    df['other_awards_nominated'] = sc.fit_transform(df[["other_awards_nominated"]])
-    # df['director_won_oscar'] = sc.fit_transform(df[["director_won_oscar"]])
-    # df['director_nominated_oscar'] = sc.fit_transform(df[["director_nominated_oscar"]])
-    # df['director_other_awards_won'] = sc.fit_transform(df[["director_other_awards_won"]])
-    # df['director_other_awards_nominated'] = sc.fit_transform(df[["director_other_awards_nominated"]])
+    df['budget'] = budgetScaler.transform(df[["budget"]])
+    df['runtime'] = runtimeScaler.transform(df[["runtime"]])
+    df['won_oscars'] = won_oscarsScaler.transform(df[["won_oscars"]])
+    df['nominated_oscars'] = nominated_oscarsScaler.transform(df[["nominated_oscars"]])
+    df['other_awards_won'] = other_awards_wonScaler.transform(df[["other_awards_won"]])
+    df['other_awards_nominated'] = other_awards_nominatedScaler.transform(df[["other_awards_nominated"]])
+    df['director_won_oscar'] = director_won_oscarScaler.transform(df[["director_won_oscar"]])
+    df['director_nominated_oscar'] = director_nominated_oscarScaler.transform(df[["director_nominated_oscar"]])
+    df['director_other_awards_won'] = director_other_awards_wonScaler.transform(df[["director_other_awards_won"]])
+    df['director_other_awards_nominated'] = director_other_awards_nominatedScaler.transform(df[["director_other_awards_nominated"]])
 
-    prediction = model.predict(df)
-    rating = 0
-    for predic in prediction:
-        highest = 0
-        for i in range(len(predic)):
-            if predic[i] > highest:
-                highest = predic[i]
-                rating = i
+    prediction = model.predict_classes(df)
+    # rating = 0
+    # for predic in prediction:
+    #     highest = 0
+    #     for i in range(len(predic)):
+    #         if predic[i] > highest:
+    #             highest = predic[i]
+    #             rating = i
 
-    return rating
+    return int(prediction)
