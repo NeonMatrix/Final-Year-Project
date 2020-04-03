@@ -36,8 +36,15 @@
                 </div>
                 <div class="card-body">
 
-                    <div class="form-row m-b-55">
-                        <div class="name">Predicted Rating: {{rating}}</div>
+                    <h3>Here is the rating prediction for your movie idea.</h2>
+                    <br><br>
+
+                    <h1>{{movieTitle}}</h1>
+                    <br><br>
+
+                    <div class="form-row">
+                        <div class="name">Predicted Rating: </div>
+                        <div class="name">{{rating}}/10</div>
                     </div>
 
                     <div class="form-row m-b-55">
@@ -49,26 +56,30 @@
                         {% endfor %}
                     </div>
 
+
+                    
                     {% for a in actors %}
                     <div class="form-row m-b-55">
-                        <div class="name">Actor: {{forloop.counter}}</div>
+                        <div class="name">Actor {{forloop.counter}}: </div>
                         <div class="name">{{a}}</div>
                     </div>
                     {% endfor %}
 
 
                     <div class="form-row m-b-55">
-                        <div class="name">Budget: {{budget}}</div>
+                        <div class="name">Budget: </div>
+                        <div class="name">${{budget}}</div>
                     </div>
 
                     <div class="form-row m-b-55">
-                        <div class="name">Runtime: {{runtime}}</div>
+                        <div class="name">Runtime: </div>
+                        <div class="name">{{runtime}} minutes</div>
                     </div>
 
                     <div class="form-row m-b-55">
                         <div class="name">Genre: {{genre}}</div>
                     </div>
-                    <div class="form-row m-b-55">
+                    <!-- <div class="form-row m-b-55">
                         <div class="name">Total amount of oscars won: {{totalActorOscars}}</div>
                     </div>
                     <div class="form-row m-b-55">
@@ -91,7 +102,7 @@
                     </div>
                     <div class="form-row m-b-55">
                         <div class="name">Director Other Awards Nominated: {{directorOtherNoms}}</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

@@ -25,6 +25,9 @@
 
     <!-- Main CSS-->
     <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+
+    <!-- Javascript for the page-->
+    <!-- <script src="{% static 'js/main.js' %}"></script> -->
 </head>
 
 <body>
@@ -36,113 +39,73 @@
                 </div>
                 <div class="card-body">
 
-
+                    <h3>To predict the ratings your movie idea would receive, please fill in the detials of the movie into the fields below.</h2>
+                    <br><br><br>
                     <form method="POST" action="{% url 'moviepredict:makepredict' %}">
                         {% csrf_token %}
 
                         <div class="form-row m-b-55">
-                            <div class="name">Actor 1</div>
+                            <div class="name">Movie title</div>
                             <div class="value">
-                                <div class="row row-space">
-                                    <div class="col-1">
-                                        <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="actor[]">
-                                            <label class="label--desc">Actor name</label>
-                                        </div>
-                                    </div>
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" name="movieTitle">
+                                    <label class="label--desc">The title of the movie does not affect the rating.</label>
                                 </div>
+
                             </div>
                         </div>
-
-                        <div class="form-row m-b-55">
-                                <div class="name">Actor 2</div>
-                                <div class="value">
-                                    <div class="row row-space">
-                                        <div class="col-1">
-                                            <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor[]">
-                                                <label class="label--desc">Actor name</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row m-b-55">
-                                <div class="name">Actor 3</div>
-                                <div class="value">
-                                    <div class="row row-space">
-                                        <div class="col-1">
-                                            <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor[]">
-                                                <label class="label--desc">Actor name</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row m-b-55">
-                                <div class="name">Actor 4</div>
-                                <div class="value">
-                                    <div class="row row-space">
-                                        <div class="col-1">
-                                            <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor[]">
-                                                <label class="label--desc">Actor name</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row m-b-55">
-                                <div class="name">Actor 5</div>
-                                <div class="value">
-                                    <div class="row row-space">
-                                        <div class="col-1">
-                                            <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor[]">
-                                                <label class="label--desc">Actor name</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <br><br><br>
+                        <div id="director_field">
                             <div class="form-row m-b-55">
                                 <div class="name">Director</div>
                                 <div class="value">
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="director">
+                                                <input class="input--style-5" type="text" name="director[]">
                                                 <label class="label--desc">Director name</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <button  type="button" onclick="addDirector()"><img src="{% static 'images/plus.png' %}" alt="[plus.png]" width="30px"><div class="form-row"><div class="name">Add Director</div></div></button>
+                        <br><br><br>
+
+                        <div id="actor_fields">
+                            <div class="form-row m-b-55">
+                                <div class="name">Actor</div>
+                                <div class="value">
+                                    <div class="row row-space">
+                                        <div class="col-1">
+                                            <div class="input-group-desc">
+                                                <input class="input--style-5" type="text" name="actor[]">
+                                                <label class="label--desc">Actor name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button  type="button" onclick="addActor()"><img src="{% static 'images/plus.png' %}" alt="[plus.png]" width="30px"><div class="form-row"><div class="name">Add Actor</div></div></button>
+                        <br><br><br>
 
 
                         <div class="form-row">
                             <div class="name">Movie Budget</div>
                             <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="number" name="budget">
-                                </div>
+                                
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="number" name="budget">
+                                            <label class="label--desc">Budget of the movie in dollars</label>
+                                        </div>
+                                    </div>
+                                
                             </div>
                         </div>
-
-
-                        <!-- <div class="form-row">
-                            <div class="name">Runtime</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="email" name="email">
-                                </div>
-                            </div>
-                        </div> -->
 
 
                         <div class="form-row m-b-55">
@@ -160,7 +123,7 @@
                         </div>
 
                         <div class="form-row p-t-20">
-                            <label class="label label--block">Choose movie genre</label>
+                            <label class="label label--block">Choose movie genres</label>
                             <div class="p-t-15">
                                 <label class="radio-container m-r-55">Animation
                                     <input type="checkbox" name="genre" value="Animation">
@@ -290,6 +253,76 @@
 
     <!-- Main JS-->
     <script src="{% static 'js/global.js' %}"></script>
+
+    <script>
+        actorIds = 1
+        directorIds = 1
+
+        function addActor() {
+            actorIds++;
+            var imageSource = "{% static 'images/minus.png' %}"; 
+            var actorHtml = '<div class="form-row m-b-55">'+
+                                '<div class="name">Actor</div>'+
+                                    '<div class="value">'+
+                                        '<div class="row row-space">'+
+                                            '<div class="col-1">'+
+                                                '<div class="input-group-desc">'+
+                                                    '<input class="input--style-5" type="text" name="actor[]">'+
+                                                    '<label class="label--desc">Actor name</label>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<button  type="button" onclick="deleteActor('+actorIds+')"><img src="'+imageSource+'" alt="[minus.png]" width="30px"></button>'+
+                                '</div>'+
+                            '</div>'
+                ;
+
+            var actorDiv = document.createElement("div");
+            var actorDivAtt = document.createAttribute("id");
+            actorDivAtt.value = "actor"+actorIds;
+            actorDiv.setAttributeNode(actorDivAtt);    
+            actorDiv.innerHTML = actorHtml;
+
+            document.getElementById("actor_fields").appendChild(actorDiv);
+        }
+
+        function addDirector() {
+            directorIds++;
+            var imageSource = "{% static 'images/minus.png' %}"; 
+            var directorHtml =  '<div class="form-row m-b-55">'+
+                                    '<div class="name">Director</div>'+
+                                        '<div class="value">'+
+                                            '<div class="row row-space">'+
+                                                '<div class="col-1">'+
+                                                    '<div class="input-group-desc">'+
+                                                        '<input class="input--style-5" type="text" name="director[]">'+
+                                                        '<label class="label--desc">Director name</label>'+
+                                                    '</div>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<button  type="button" onclick="deleteDirector('+directorIds+')"><img src="'+imageSource+'" alt="[minus.png]" width="25px"></button>'+
+                                    '</div>'+   
+                                '</div>'
+                ;
+
+            var directorDiv = document.createElement("div");
+            var directorDivAtt = document.createAttribute("id");
+            directorDivAtt.value = "director"+directorIds;
+            directorDiv.setAttributeNode(directorDivAtt);    
+            directorDiv.innerHTML = directorHtml;
+
+            document.getElementById("director_field").appendChild(directorDiv);
+        }
+
+        function deleteDirector(directorId) {
+            var directorElement = document.getElementById('director'+directorId);
+            var parentElement = document.getElementById('director_field');
+            parentElement.removeChild(directorElement);
+
+        }
+    </script>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
