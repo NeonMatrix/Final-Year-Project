@@ -21,7 +21,7 @@ def makeRatingPrediction(request):
     except (KeyError):
         return render(request, 'moviepredict/index.html', 
             {
-                'error_message': "You didn't select a choice",
+                'error_message': "Fill in all details",
             }
         )
     else:
@@ -114,15 +114,8 @@ def makeRatingPrediction(request):
                 'budget' : budget,
                 'runtime' : runtime,
                 'actors' : actorsList,
+                'directors' : directorList,
                 'genre' : genre,
-                'totalActorOscars' :  totalActorOscars,
-                'totalActorNomOscars' : totalActorNomOscars,
-                'totActorOtherWins' : totActorOtherWins,
-                'totActorOtherNoms' : totActorOtherNoms,
-                'directorOscars' : totalDirectorOscars,
-                'directorOscarsNom' : totalDirectorNomOscars,
-                'directorOtherWins' : totDirectorOtherWins,
-                'directorOtherNoms' : totDirectorOtherNoms,
                 'rating' : rating,
                 'num_stars' : range(rating),
                 'num_black_stars' : range(10 - rating)

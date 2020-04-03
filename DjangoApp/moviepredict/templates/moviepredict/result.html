@@ -56,7 +56,12 @@
                         {% endfor %}
                     </div>
 
-
+                    {% for d in directors %}
+                    <div class="form-row m-b-55">
+                        <div class="name">Director {{forloop.counter}}: </div>
+                        <div class="name">{{d}}</div>
+                    </div>
+                    {% endfor %}
                     
                     {% for a in actors %}
                     <div class="form-row m-b-55">
@@ -77,32 +82,17 @@
                     </div>
 
                     <div class="form-row m-b-55">
-                        <div class="name">Genre: {{genre}}</div>
+                        <div class="name">Genre: </div>
+                        {% for g in genre %}
+                            <div class="name">{{g}}</div>
+                        {% endfor %}
                     </div>
-                    <!-- <div class="form-row m-b-55">
-                        <div class="name">Total amount of oscars won: {{totalActorOscars}}</div>
+                    
+                    <div>
+                        <a href="{% url 'moviepredict:index' %}">
+                            <button class="btn btn--radius-2 btn--red" type="button">Predict Another Movie</button>
+                        </a>
                     </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Total amount of oscars nominated: {{totalActorNomOscars}}</div>
-                    </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Total amount of other awards won: {{totActorOtherWins}}</div>
-                    </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Total amount of other awards nominated: {{totActorOtherNoms}}</div>
-                    </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Director Oscars Won: {{directorOscars}}</div>
-                    </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Director Oscars Nominated: {{directorOscarsNom}}</div>
-                    </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Director Other Awards Won: {{directorOtherWins}}</div>
-                    </div>
-                    <div class="form-row m-b-55">
-                        <div class="name">Director Other Awards Nominated: {{directorOtherNoms}}</div>
-                    </div> -->
                 </div>
             </div>
         </div>

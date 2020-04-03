@@ -26,8 +26,6 @@
     <!-- Main CSS-->
     <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
 
-    <!-- Javascript for the page-->
-    <!-- <script src="{% static 'js/main.js' %}"></script> -->
 </head>
 
 <body>
@@ -41,15 +39,16 @@
 
                     <h3>To predict the ratings your movie idea would receive, please fill in the detials of the movie into the fields below.</h2>
                     <br><br><br>
-                    <form method="POST" action="{% url 'moviepredict:makepredict' %}">
+
+                    <form name="movieDetails" method="POST" action="{% url 'moviepredict:makepredict' %}" onsubmit="return validateForm()">
                         {% csrf_token %}
 
                         <div class="form-row m-b-55">
                             <div class="name">Movie title</div>
                             <div class="value">
                                 <div class="input-group-desc">
-                                    <input class="input--style-5" type="text" name="movieTitle">
-                                    <label class="label--desc">The title of the movie does not affect the rating.</label>
+                                    <input class="input--style-5" type="text" name="movieTitle" required>
+                                    <label class="label--desc">The title of the movie does not affect the rating</label>
                                 </div>
 
                             </div>
@@ -62,7 +61,7 @@
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="director[]">
+                                                <input class="input--style-5" type="text" name="director[]" required>
                                                 <label class="label--desc">Director name</label>
                                             </div>
                                         </div>
@@ -81,7 +80,7 @@
                                     <div class="row row-space">
                                         <div class="col-1">
                                             <div class="input-group-desc">
-                                                <input class="input--style-5" type="text" name="actor[]">
+                                                <input class="input--style-5" type="text" name="actor[]" required>
                                                 <label class="label--desc">Actor name</label>
                                             </div>
                                         </div>
@@ -99,7 +98,7 @@
                                 
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="number" name="budget">
+                                            <input class="input--style-5" type="number" name="budget" required>
                                             <label class="label--desc">Budget of the movie in dollars</label>
                                         </div>
                                     </div>
@@ -114,7 +113,7 @@
                                 <div class="row row-refine">
                                     <div class="col-3">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="number" name="runtime">
+                                            <input class="input--style-5" type="number" name="runtime" required>
                                             <label class="label--desc">Movie runtime in minutes</label>
                                         </div>
                                     </div>
@@ -200,40 +199,7 @@
                             </div>
                         </div>
 
-
-
-
-                        <!-- <div class="form-row">
-                            <div class="name">Subject</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="subject">
-                                            <option disabled="disabled" selected="selected">Choose option</option>
-                                            <option>Subject 1</option>
-                                            <option>Subject 2</option>
-                                            <option>Subject 3</option>
-                                        </select>
-                                        <div class="select-dropdown"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="form-row p-t-20">
-                            <label class="label label--block">Are you an existing customer?</label>
-                            <div class="p-t-15">
-                                <label class="radio-container m-r-55">Yes
-                                    <input type="radio" checked="checked" name="exist">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="radio-container">No
-                                    <input type="radio" name="exist">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div> -->
-
+                        <div id="genreError"></div>
 
                         <div>
                             <button class="btn btn--radius-2 btn--red" type="submit">Predict Rating</button>
@@ -267,7 +233,7 @@
                                         '<div class="row row-space">'+
                                             '<div class="col-1">'+
                                                 '<div class="input-group-desc">'+
-                                                    '<input class="input--style-5" type="text" name="actor[]">'+
+                                                    '<input class="input--style-5" type="text" name="actor[]" required>'+
                                                     '<label class="label--desc">Actor name</label>'+
                                                 '</div>'+
                                             '</div>'+
@@ -296,7 +262,7 @@
                                             '<div class="row row-space">'+
                                                 '<div class="col-1">'+
                                                     '<div class="input-group-desc">'+
-                                                        '<input class="input--style-5" type="text" name="director[]">'+
+                                                        '<input class="input--style-5" type="text" name="director[]" required>'+
                                                         '<label class="label--desc">Director name</label>'+
                                                     '</div>'+
                                                 '</div>'+
@@ -321,6 +287,34 @@
             var parentElement = document.getElementById('director_field');
             parentElement.removeChild(directorElement);
 
+        }
+
+        function deleteActor(actorId) {
+            var actorElement = document.getElementById('actor'+actorId);
+            var parentElement = document.getElementById('actor_fields');
+            parentElement.removeChild(actorElement);
+
+        }
+
+        function validateForm(){
+            var checked = false; 
+            var genres = document.getElementsByName('genre');
+            for(var i=0; genres[i]; ++i){
+                if(genres[i].checked){
+                    checked = true
+                    break;
+                }
+            }
+
+            if(checked){
+                return true;
+            }
+            else{
+                var errorMessage = '<h5 style="color:red">Please select at least 1 genre</h5><br>'
+                var genreError = document.getElementById('genreError');
+                genreError.innerHTML = errorMessage;
+                return false;
+            }
         }
     </script>
 

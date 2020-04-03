@@ -28,9 +28,9 @@ director_other_awards_nominatedScaler = joblib.load('scalers/director_other_awar
 
 model = load_model('prediction_models/minMaxPredictionModel.h5')
 
-train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/predict_movies.csv'
 #train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/predict_movies.csv'
-dataInputSize = 29
+dataInputSize = 29 
 
 dataset = pd.read_csv(train_path)
 # print(dataset.loc[0])
@@ -51,62 +51,10 @@ x_df['director_other_awards_nominated'] = director_other_awards_nominatedScaler.
 # print(y_df)
 stars = y_df['movie rating']
 
-#print(x_df.loc[0])
-#print(x_df)
-
-indiv_pred = []
-
-numpy_x = np.array(x_df)
-y,x = numpy_x.shape
-
-# print(numpy_x[4].tolist())
-# a = np.array([numpy_x[1].tolist()])
-# print(model.predict_classes(a))
-# a = x_df.iloc[4]
-
-for i in range(y):
-    temp = []
-    x = numpy_x[i].tolist()
-    temp.append(x)
-    a = array(temp)
-    indiv_pred.append(model.predict_classes(a).tolist())
-    #indiv_pred.append(model.predict_classes([x_df.iloc[i]]).tolist())
-
-print(model.predict_classes(np.array([numpy_x[0].tolist(),]))[0] )
 
 prediction = model.predict_classes(x_df)
-# print(indiv_pred)
-# print(prediction)
 
-
-# batch predictiob
-# predicted_rating = []
-# rating  = 0
-# for predic in prediction:
-#     highest = 0
-#     for i in range(len(predic)):
-#         if predic[i] > highest:
-#             highest = predic[i]
-#             rating = i
-#     predicted_rating.append(rating)
-# print("This is batch prediction  ", predicted_rating)
-
-
-# #individual prediction
-# predicted_rating = []
-# rating  = 0
-# #y,x = indiv_pred.size
-
-# for i in range(30):
-#     p = indiv_pred[i]
-#     for predic in p:
-#         highest = 0
-#         for j in range(len(predic)):
-#             if predic[j] > highest:
-#                 highest = predic[j]
-#                 rating = j
-#         predicted_rating.append(rating)
-# print("This is individual prediction  ", predicted_rating)
+print(prediction)
 
 total = 0
 ten = 0
@@ -171,11 +119,3 @@ print("Four: ", four)
 print("Three: ", three)
 print("Two: ", two)
 print("One: ", one)
-
-# cats = [[111,95000000,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,2,0,195,462,1,0,32,53]]
-# prediction = model.predict(cats)
-# print('Cats prediction: ', prediction)
-# print(predicted_rating)
-
-# score = model.evaluate(x_test, y_test)
-# print(f"Test Accuracy: {score[1]}")
