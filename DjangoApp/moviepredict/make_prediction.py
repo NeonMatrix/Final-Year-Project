@@ -3,20 +3,11 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import keras
-# import numpy as np
-# from keras.models import Sequential
 from keras.models import load_model
-# from keras.layers import Dense
-# from keras.layers import Dropout
-# from keras.utils import to_categorical 
-# from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 from sklearn import preprocessing
-# from sklearn.externals import joblib 
-# from sklearn.preprocessing import LabelEncoder
-# from sklearn.preprocessing import OneHotEncoder
 import joblib
 
+# find actor's IMDb ID from database 
 def getActorID(actorName):
     a = Actor.objects.filter(name=actorName)
     if a:
@@ -24,6 +15,7 @@ def getActorID(actorName):
     else:
         return 0
 
+# find director's IMDb ID from database
 def getDirectorID(directorName):
     d = Director.objects.filter(name=directorName)
     if d:
@@ -32,10 +24,15 @@ def getDirectorID(directorName):
         return 0
 
 def getActorAwards(actorName):
+
+    #get actor IMDn ID from database
     actorID = getActorID(actorName)
+
+    # If the actor was not found return 0 awards
     if actorID == 0:
         return [0, 0, 0, 0]
     else:
+        # Web scrape for awards for the actor
         response = requests.get('https://www.imdb.com/name/' + actorID)
         soup = BeautifulSoup(response.text, 'lxml')
         awardsBlurb = soup.findAll('span', {"class" : 'awards-blurb'})
@@ -77,10 +74,16 @@ def getActorAwards(actorName):
         return [numOscars, numNomOscars, numOtherWins, numOtherNoms]
 
 def getDirectorAwards(directorName):
+
+    # get director IMDn ID from database
     directorID = getDirectorID(directorName)
+
+    # If the director was not found return 0 awards
     if directorID == 0:
         return [0, 0, 0, 0]
     else:
+
+        # Web scrape for awards for the director
         response = requests.get('https://www.imdb.com/name/' + directorID)
         soup = BeautifulSoup(response.text, 'lxml')
         awardsBlurb = soup.findAll('span', {"class" : 'awards-blurb'})
@@ -121,10 +124,13 @@ def getDirectorAwards(directorName):
 
         return [numOscars, numNomOscars, numOtherWins, numOtherNoms]
 
+# movie rating prediction fucntion
 def preditRating(movieDetails):
 
+    # load the prediction modle from file
     model = load_model('moviepredict/prediction_models/minMaxPredictionModel.h5')
 
+    # load the svaed Scaler values from file
     budgetScaler = joblib.load('moviepredict/scalers/budgetScaler.sav')
     runtimeScaler = joblib.load('moviepredict/scalers/runtimeScaler.sav')
     won_oscarsScaler = joblib.load('moviepredict/scalers/won_oscarsScaler.sav')
@@ -136,6 +142,7 @@ def preditRating(movieDetails):
     director_other_awards_wonScaler = joblib.load('moviepredict/scalers/director_other_awards_wonScaler.sav')
     director_other_awards_nominatedScaler = joblib.load('moviepredict/scalers/director_other_awards_nominatedScaler.sav')
 
+    # turn the array into python dictionary
     dataset = { 'runtime': movieDetails[0],
                 'budget': movieDetails[1],
                 'Animation': movieDetails[2],
@@ -166,9 +173,10 @@ def preditRating(movieDetails):
                 'director_other_awards_nominated': movieDetails[27]
     }
 
-    #df = pd.DataFrame (dataset.items(), columns = ['runtime', 'budget', 'Animation', 'Action', 'Adventure', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Science Fiction', 'Romance', 'Thriller', 'Western', 'War', 'won_oscars', 'nominated_oscars', 'other_awards_won', 'other_awards_nominated', 'director_won_oscar', 'director_nominated_oscar', 'director_other_awards_won', 'director_other_awards_nominated'])
+    #turn python dictionary into a panda dataframe
     df = pd.DataFrame ([dataset])
 
+    # Normalise and scale the data
     df['budget'] = budgetScaler.transform(df[["budget"]])
     df['runtime'] = runtimeScaler.transform(df[["runtime"]])
     df['won_oscars'] = won_oscarsScaler.transform(df[["won_oscars"]])
@@ -180,13 +188,8 @@ def preditRating(movieDetails):
     df['director_other_awards_won'] = director_other_awards_wonScaler.transform(df[["director_other_awards_won"]])
     df['director_other_awards_nominated'] = director_other_awards_nominatedScaler.transform(df[["director_other_awards_nominated"]])
 
+    # predict rating using the prediction model
     prediction = model.predict_classes(df)
-    # rating = 0
-    # for predic in prediction:
-    #     highest = 0
-    #     for i in range(len(predic)):
-    #         if predic[i] > highest:
-    #             highest = predic[i]
-    #             rating = i
 
+    #return the predicted rating
     return int(prediction)

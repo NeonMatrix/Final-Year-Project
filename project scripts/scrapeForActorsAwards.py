@@ -4,6 +4,9 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+# python script to web scraoe for Actor Oscars/Awards and nominations
+
+
 q = Queue()
 lock = threading.Lock()
 run = True

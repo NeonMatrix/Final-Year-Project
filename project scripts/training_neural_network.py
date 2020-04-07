@@ -6,15 +6,11 @@ from keras.layers import Dense
 from keras.layers import Dropout
 from keras.utils import to_categorical 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn import preprocessing
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import OneHotEncoder
 import joblib
-# from sklearn.externals import joblib 
-# sc = StandardScaler()
 
+#creating scaler objects
 budgetScaler = MinMaxScaler(feature_range=(0,1))
 runtimeScaler = MinMaxScaler(feature_range=(0,1))
 won_oscarsScaler = MinMaxScaler(feature_range=(0,1))
@@ -26,10 +22,11 @@ director_nominated_oscarScaler = MinMaxScaler(feature_range=(0,1))
 director_other_awards_wonScaler = MinMaxScaler(feature_range=(0,1))
 director_other_awards_nominatedScaler = MinMaxScaler(feature_range=(0,1))
 
-train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv'
-#train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/movies.csv'
+train_path = '/Users/Povilas/Desktop/Final-Year-Project/movieCSVs/movies.csv'
+#train_path = '/home/paul/Desktop/Final-Year-Project/movieCSVs/movies.csv'
 dataInputSize = 29
 
+#load data from movies.csv into panda dataframe
 dataset = pd.read_csv(train_path)
 x_df = pd.DataFrame(dataset.iloc[:,1:dataInputSize])
 y_df = pd.DataFrame(dataset.iloc[:,dataInputSize])
@@ -45,50 +42,39 @@ x_df['director_nominated_oscar'] = director_nominated_oscarScaler.fit_transform(
 x_df['director_other_awards_won'] = director_other_awards_wonScaler.fit_transform(x_df[["director_other_awards_won"]])
 x_df['director_other_awards_nominated'] = director_other_awards_nominatedScaler.fit_transform(x_df[["director_other_awards_nominated"]])
 
-#y_df = sc.fit_transform(y_df)
-# expectedResult = []
-# for x in y_df:
-#     if x == 'movie rating':
-#         pass
-#     else:
-#         expectedResult.append(int(x)/10)
-#     print(x)
-
-# x_df = sc.fit_transform(x_df)
-# print(expectedResult)
 
 # formats star ratings into array of categories i.e 3/10 stars = [0,0,1,0,0,0,0,0,0,0]
 y_df = y_df.values.tolist()
 y_df = np.array(y_df , dtype=int)
 newRay = y_df.flatten()
-print(newRay)
+#print(newRay)
 expectedResult = to_categorical(newRay)
-# expectedResult = sc.fit_transform(expectedResult)
-print(expectedResult)
+#print(expectedResult)
+#print(x_df)
 
-print(x_df)
+#the data is split into testing and training portions.
 x_train, x_test, y_train, y_test = train_test_split(x_df, expectedResult, test_size=0.2, random_state=75)
 
+# neural network layers set up here
 model = Sequential()
 model.add(Dense(100, activation='relu', input_dim=dataInputSize-1))
-# model.add(Dropout(0.2))
 model.add(Dense(125, activation='relu'))
-# model.add(Dropout(0.2))
 model.add(Dense(100, activation='relu'))
 model.add(Dropout(0.25))
 model.add(Dense(11, activation='softmax'))
 
-#categorical_crossentropy metrics=['accuracy', 'mse', 'mae']
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy', 'mse', 'mae'])
+# neural network is compiled
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# print(x_train)
-# print(y_train)
+# neural network is trained with the train data.
 model.fit(x_train, y_train, batch_size=1, epochs=12)
 
+# the accuratcy of the model is evalauted using testing portion of the trainig data.
 score = model.evaluate(x_test, y_test)
 print(f"Test Accuracy: {score[1]}")
 
-model.save('prediction_models/minMaxPredictionModel.h5')
+# saving the prediction model and the scalers used
+model.save('prediction_models/finalPredictionModel.h5')
 joblib.dump(budgetScaler, 'scalers/budgetScaler.sav')
 joblib.dump(runtimeScaler, 'scalers/runtimeScaler.sav') 
 joblib.dump(won_oscarsScaler, 'scalers/won_oscarsScaler.sav') 
@@ -98,93 +84,4 @@ joblib.dump(other_awards_nominatedScaler, 'scalers/other_awards_nominatedScaler.
 joblib.dump(director_won_oscarScaler, 'scalers/director_won_oscarScaler.sav') 
 joblib.dump(director_nominated_oscarScaler, 'scalers/director_nominated_oscarScaler.sav') 
 joblib.dump(director_other_awards_wonScaler, 'scalers/director_other_awards_wonScaler.sav') 
-joblib.dump(director_other_awards_nominatedScaler, 'scalers/director_other_awards_nominatedScaler.sav')  
-
-
-
-
-
-
-
-# Code graveyard for reference 
-
-
-# le = LabelEncoder()
-# int_encode = le.fit_transform(y_df)
-
-# one_hot = OneHotEncoder(sparse=False)
-# int_encoded = int_encode.reshape(len(int_encode) , 1)
-# one_hot_encode = one_hot.fit_transform(int_encode)
-
-# print(expectedResult)
-# print(expectedResult[2][9])
-#* Val waz here
-
-# to_categorical(y_df)
-# print(y_df)
-
-
-#y_df['movie rating'] = sc.fit_transform(y_df[["movie rating"]])
-# x = dataset.iloc[:,1:21]
-# y = dataset.iloc[:,21]
-
-# x = np.array(x)
-# x = x.reshape(-1, 1)
-# x[1,:] = sc.fit_transform(x[1,:])
-
-
-# sc = StandardScaler()
-# x_train = sc.fit_transform(x_train)
-# x_test = sc.transform(x_test)
-
-#y_train = sc.transform(y_train)
-# x_train=(x_train-x_train.mean())/x_train.std()
-# x = x_train[['budget']].values.astype(int)
-# min_max_scaler = preprocessing.MinMaxScaler()
-# x_scaled = min_max_scaler.fit_transform(x)
-# x_train = pd.DataFrame(x_scaled)
-
-# y_train=(y_train-y_train.mean())/y_train.std()
-# y_train = y_train.reshape(-1, 1)
-
-
-
-# trainset = tf.data.TextLineDataset(train_path).skip(1)
-
-# COLUMNS = ['imdb_id', 'runtime',
-#            'budget', 'reveune',
-#            'ratings']
-
-# FIELD_DEFAULTS = [[0.0], [0.0], [0.0], [0.0], [0]]
-# def _parse_line(line):
-#     # Decode the line into its fields
-#     fields = tf.io.decode_csv(line, FIELD_DEFAULTS)
-
-#     # Pack the result into a dictionary
-#     features = dict(zip(COLUMNS,fields))
-
-#     # Separate the label from the features
-#     label = features.pop('ratings')
-
-#     return features, label
-
-# trainset = trainset.map(_parse_line)
-# print(trainset)
-
-# model = tf.keras.models.Sequential([
-#   tf.keras.layers.Input(shape=(5)),
-#   tf.keras.layers.Dense(64, activation='relu'),
-#   tf.keras.layers.Dense(10, activation='softmax')
-# ])
-
-# model.compile(optimizer='adam',
-#               loss='sparse_categorical_crossentropy',
-#               metrics=['accuracy'])
-
-# model.fit(trainset, epochs=3)
-
-# # for x in trainset:
-# #     print(x)
-
-# # x = trainset.make_one_shot_iterator()
-# # x.get_next()
+joblib.dump(director_other_awards_nominatedScaler, 'scalers/director_other_awards_nominatedScaler.sav')

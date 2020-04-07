@@ -3,13 +3,16 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .make_prediction import *
 
+# View for the form page of the web app.
 def index(request):
     return render(request, 'moviepredict/index.html', {})
 
-def result(request, budget):
-    return render(request, 'moviepredict/result.html', {'budget' : budget})
 
+# code to process the movie detail submitted through the form 
+# and redirect the web app to the reult page
 def makeRatingPrediction(request):
+
+    #get values from the ubmitted form
     try:
         movieTitle = request.POST['movieTitle']
         directorList = request.POST.getlist('director[]')
@@ -18,6 +21,8 @@ def makeRatingPrediction(request):
         runtime = request.POST['runtime']
         genre = request.POST.getlist('genre')
 
+    # incase there is an error with the submission form, 
+    # it will relaod the page with an error message displaued
     except (KeyError):
         return render(request, 'moviepredict/index.html', 
             {
@@ -26,6 +31,7 @@ def makeRatingPrediction(request):
         )
     else:
 
+        # initislaing varibles to be used when processing the movie data to make a prediction 
         totalActorOscars = 0
         totalActorNomOscars = 0
         totActorOtherWins = 0
@@ -91,6 +97,7 @@ def makeRatingPrediction(request):
         if 'War' in genre:
             war = 1
 
+        # get total amount of oscars and awards won/nomtiated by the actors submitted in the form
         for actor in actorsList:
             awards = getActorAwards(actor)
             totalActorOscars = totalActorOscars + awards[0]
@@ -98,6 +105,7 @@ def makeRatingPrediction(request):
             totActorOtherWins = totActorOtherWins + awards[2]
             totActorOtherNoms = totActorOtherNoms + awards[3]
         
+        # get total amount of oscars and awards won/nomtiated by the directors submitted in the form
         for director in directorList:
             awards = getDirectorAwards(director)
             totalDirectorOscars = totalDirectorOscars + awards[0]
@@ -105,11 +113,13 @@ def makeRatingPrediction(request):
             totDirectorOtherWins = totDirectorOtherWins + awards[2]
             totDirectorOtherNoms = totDirectorOtherNoms + awards[3]
 
+        # predict movie rating with the movie details
         rating = preditRating([runtime, budget, animation, action, adventure, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, science_fiction, romance, thriller, western, war, totalActorOscars, totalActorNomOscars, totActorOtherWins, totActorOtherNoms, totalDirectorOscars, totalDirectorNomOscars, totDirectorOtherWins, totDirectorOtherNoms])
 
-        #return HttpResponseRedirect(reverse('moviepredict:result', args=(budget,)))
+        # redirect the web app to the results to page to display the predicted rating 
         return render(request, 'moviepredict/result.html', 
             {
+                # the context for the results page
                 'movieTitle' : movieTitle,
                 'budget' : budget,
                 'runtime' : runtime,

@@ -1,6 +1,8 @@
 from moviepredict.models import *
 import csv
 
+# this python script populated the Django Database with Director names and their IMDB IDs
+
 dir_nameDB = csv.reader(open('/Users/Povilas/Desktop/Final-Year-Project/datasets/directorname_ID.csv', mode='r',  encoding='utf8'), delimiter=',')
 
 for row in dir_nameDB:

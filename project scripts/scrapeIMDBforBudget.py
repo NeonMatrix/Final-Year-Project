@@ -4,6 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+# python script to web scraoe for movie budget of those movies 
+# that didn't have budget in the orginal dataset from Kaggle
+
+
 q = Queue()
 lock = threading.Lock()
 run = True

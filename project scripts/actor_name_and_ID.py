@@ -2,6 +2,9 @@ import csv
 
 path = '/Users/Povilas/Desktop/Final-Year-Project/'
 
+# This python script extracted the Actors and Directors from IMDB's dataset of all 
+# people that are recorded within IMDB website.
+
 with open(path + 'datasets/imdb_name_data.tsv', mode='r',  encoding="utf8") as namedb:
     actor_nameDB = csv.reader(namedb, delimiter="\t")
 

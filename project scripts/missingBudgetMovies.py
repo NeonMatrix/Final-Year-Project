@@ -1,5 +1,10 @@
 import csv
 
+# this python script parased through the AllMoviesDetailsCleaned.csv and 
+# put all movies that didn't have a budget listed into a new CSV
+# so then another python script would web scrape IMDb for the bugdet of those movies
+
+
 with open('/Users/Povilas/Desktop/Final-Year-Project/datasets/AllMoviesDetailsCleaned.csv', mode='r',  encoding="utf8") as cmdb:
         clean_movie_db = csv.reader(cmdb, delimiter=";", quotechar='"')
 

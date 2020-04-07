@@ -4,12 +4,15 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+# python script to web scraoe for Direcor Oscars/Awards and nominations
+
+
 q = Queue()
 lock = threading.Lock()
 run = True
 
 # /Users/Povilas/Desktop/Final-Year-Project/datasets/director_awards.csv
-# with open('/home/paul/Desktop/Final-Year-Project/moviesCSV/testmovies.csv', mode='r',  encoding="utf8") as cmdb:
+
 with open('/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/movies.csv', mode='r',  encoding="utf8") as cmdb:
     movies = csv.reader(cmdb, delimiter=",", quotechar='"')
 
