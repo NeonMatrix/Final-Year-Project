@@ -128,7 +128,7 @@ def getDirectorAwards(directorName):
 def preditRating(movieDetails):
 
     # load the prediction modle from file
-    model = load_model('moviepredict/prediction_models/minMaxPredictionModel.h5')
+    model = load_model('moviepredict/prediction_models/finalPredictionModel.h5')
 
     # load the svaed Scaler values from file
     budgetScaler = joblib.load('moviepredict/scalers/budgetScaler.sav')
