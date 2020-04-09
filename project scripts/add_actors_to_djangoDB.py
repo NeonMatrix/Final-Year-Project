@@ -1,7 +1,8 @@
 from moviepredict.models import *
 import csv
 
-# this python script populated the Django Database with Actors names and their IMDB IDs
+# this python script populated the Django Database with 
+# Actors names and their IMDB IDs
 
 
 actor_nameDB = csv.reader(open('/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/actorname_ID.csv', mode='r',  encoding='utf8'), delimiter=',')

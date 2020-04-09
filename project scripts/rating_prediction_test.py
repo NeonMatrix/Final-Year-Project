@@ -26,9 +26,9 @@ director_nominated_oscarScaler = joblib.load('scalers/director_nominated_oscarSc
 director_other_awards_wonScaler = joblib.load('scalers/director_other_awards_wonScaler.sav') 
 director_other_awards_nominatedScaler = joblib.load('scalers/director_other_awards_nominatedScaler.sav') 
 
-model = load_model('prediction_models/minMaxPredictionModel.h5')
+model = load_model('prediction_models/finalPredictionModel.h5')
 
-train_path = '/Users/Povilas/Desktop/Final-Year-Project/moviesCSV/predict_movies.csv'
+train_path = '/Users/Povilas/Desktop/Final-Year-Project/movieCSVs/movies.csv'
 #train_path = '/home/paul/Desktop/Final-Year-Project/moviesCSV/predict_movies.csv'
 dataInputSize = 29 
 
@@ -109,6 +109,66 @@ eff_accu = 100 - total/len(prediction)
 
 print("Effective acuuracy: ", eff_accu)
 
+
+
+print("Distribution of predicted movie ratings: ")
+print("Ten: ", ten)
+print("Nine: ", nine)
+print("Eight: ", eight)
+print("Seven: ", seven)
+print("Six: ", six)
+print("Five: ", five)
+print("Four: ", four)
+print("Three: ", three)
+print("Two: ", two)
+print("One: ", one)
+
+total = 0
+ten = 0
+nine = 0 
+eight = 0
+seven = 0
+six = 0
+five = 0
+four = 0
+three = 0
+two = 0
+one = 0
+
+for i in range(len(stars)):
+    #star_diff = prediction[i] - stars[i]
+    if(stars[i] == 10):
+        #print(dataset['imdb_id'].loc[i])
+        ten += 1
+    if(stars[i] == 9):
+        #print(dataset['imdb_id'].loc[i])
+        nine += 1
+    if(stars[i] == 8):
+        #print(dataset['imdb_id'].loc[i])
+        eight += 1
+    if(stars[i] == 7):
+        #print(dataset['imdb_id'].loc[i])
+        seven += 1
+    if(stars[i] == 6):
+        #print(dataset['imdb_id'].loc[i])
+        six += 1
+    if(stars[i] == 5):
+        #print(dataset['imdb_id'].loc[i])
+        five += 1
+    if(stars[i] == 4):
+        #print(dataset['imdb_id'].loc[i])
+        four += 1
+    if(stars[i] == 3):
+        #print(dataset['imdb_id'].loc[i])
+        three += 1
+    if(stars[i] == 2):
+        #print(dataset['imdb_id'].loc[i])
+        two += 1
+    if(stars[i] == 1):
+        #print(dataset['imdb_id'].loc[i])
+        one += 1
+
+print("Distribution of actual movie ratings: ")
 print("Ten: ", ten)
 print("Nine: ", nine)
 print("Eight: ", eight)
