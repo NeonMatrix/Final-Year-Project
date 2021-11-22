@@ -6,4 +6,4 @@ It then generates the estimated rating out of 10
 
 The AI model was trained on a massive dataset of over 10'000 movie details. The dataset was a combination of downloaded sets from Keggle and IMDb. Other detials which were not included in the datasets, such as how many oscard and other awards did each actor have, were mined from IMDb pages.
 
-### Full detailed explantion can be found in the Final Year Project Disseration document
+### Full detailed explantion can be found in the Final Year Project Disseration pdf document
